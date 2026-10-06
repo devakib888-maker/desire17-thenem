@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli @shopify/theme
@@ -26,4 +26,4 @@ jobs:
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
           SHOPIFY_FLAG_THEME_ID: ${{ secrets.SHOPIFY_THEME_ID }}
         run: |
-          shopify theme push --theme $SHOPIFY_FLAG_THEME_ID --store $SHOPIFY_FLAG_STORE --path . --nodelete --json
+          shopify theme push --theme $SHOPIFY_FLAG_THEME_ID --store $SHOPIFY_FLAG_STORE --path . --nodelete --allow-live --json
