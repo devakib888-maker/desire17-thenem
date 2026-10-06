@@ -1,4 +1,4 @@
-{%- comment -%}
+﻿{%- comment -%}
   Custom Popup Modal - Desire17
   Looks like age-verification, but OPENS ONLY on button click.
 
@@ -33,16 +33,15 @@
     display: none !important;
   }
   #desire-modal-overlay .desire-modal-box {
-    background: #000000;
+    background: linear-gradient(145deg, #ffffff, #FAF9F6);
     max-width: 560px;
     width: 100%;
     padding: 40px 48px 44px;
     border-radius: 28px;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow:
-      0 30px 80px rgba(0, 0, 0, 0.6),
-      inset 1px 1px 2px rgba(255, 255, 255, 0.08);
+      0 30px 80px rgba(41, 41, 41, 0.35),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.9);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,20 +67,20 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: #1a1a1a;
-    color: #ffffff;
+    border: none;
+    background: #FAF9F6;
+    color: #292929;
     font-size: 20px;
     line-height: 1;
     cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.06);
+    box-shadow: 5px 5px 10px #d8d2c7, -5px -5px 10px #ffffff;
     transition: box-shadow 0.2s ease, transform 0.15s ease;
   }
   #desire-modal-overlay .desire-modal-close:hover {
-    color: #d3c6e6;
+    color: #695477;
   }
   #desire-modal-overlay .desire-modal-close:active {
-    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.06);
+    box-shadow: inset 4px 4px 8px #d8d2c7, inset -4px -4px 8px #ffffff;
     transform: scale(0.96);
   }
   /* Small inset pill */
@@ -91,13 +90,12 @@
     font-weight: 700;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: #E8E0F0;
-    background: #1a1a1a;
+    color: #695477;
+    background: #F0ECE6;
     padding: 9px 18px;
     border-radius: 999px;
     margin: 0 0 22px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.06);
+    box-shadow: inset 4px 4px 8px #d5cfc3, inset -4px -4px 8px #ffffff;
   }
   /* Neumorphic icon */
   #desire-modal-overlay .desire-modal-icon {
@@ -111,9 +109,9 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: 24px;
     font-weight: 800;
-    color: #ffffff;
-    background: linear-gradient(145deg, #746084, #695477);
-    box-shadow: 9px 9px 18px rgba(0, 0, 0, 0.6), -9px -9px 18px rgba(255, 255, 255, 0.06);
+    color: #695477;
+    background: linear-gradient(145deg, #E8E0F0, #d3c6e6);
+    box-shadow: 9px 9px 18px #d8d2c7, -9px -9px 18px #ffffff;
   }
   #desire-modal-overlay .desire-modal-title {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
@@ -122,21 +120,21 @@
     font-weight: 700;
     letter-spacing: -0.5px;
     margin: 0 0 12px;
-    color: #ffffff;
+    color: #292929;
   }
   #desire-modal-overlay .desire-modal-divider {
     width: 64px;
     height: 5px;
     border-radius: 999px;
-    background: #695477;
+    background: #E8E0F0;
     margin: 2px 0 16px;
-    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.6), inset -2px -2px 4px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 2px 2px 4px #c9bde0, inset -2px -2px 4px #ffffff;
   }
   #desire-modal-overlay .desire-modal-text {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: 15px;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(41, 41, 41, 0.72);
     margin: 0 0 30px;
     max-width: 380px;
   }
@@ -167,7 +165,7 @@
   #desire-modal-btn1 {
     background: linear-gradient(145deg, #746084, #695477);
     color: #ffffff;
-    box-shadow: 7px 7px 14px rgba(0, 0, 0, 0.6), -7px -7px 14px rgba(255, 255, 255, 0.06);
+    box-shadow: 7px 7px 14px #d8d2c7, -7px -7px 14px #ffffff;
   }
   #desire-modal-btn1:hover {
     transform: translateY(-1px);
@@ -178,19 +176,18 @@
     box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3), inset -3px -3px 8px rgba(255, 255, 255, 0.15);
   }
   #desire-modal-btn2 {
-    background: #1a1a1a;
-    color: #ffffff;
+    background: #F0ECE6;
+    color: #292929;
     font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 7px 7px 14px rgba(0, 0, 0, 0.6), -7px -7px 14px rgba(255, 255, 255, 0.06);
+    box-shadow: 7px 7px 14px #d8d2c7, -7px -7px 14px #ffffff;
   }
   #desire-modal-btn2:hover {
     transform: translateY(-1px);
-    background: #2a2a2a;
+    background: #E8E0F0;
   }
   #desire-modal-btn2:active {
     transform: scale(0.98);
-    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.7), inset -5px -5px 10px rgba(255, 255, 255, 0.06);
+    box-shadow: inset 5px 5px 10px #d5cfc3, inset -5px -5px 10px #ffffff;
   }
   @media screen and (max-width: 550px) {
     #desire-modal-overlay .desire-modal-box {
