@@ -1,0 +1,181 @@
+{% comment %}
+  Desire17 trio + kleurconcept strip.
+{% endcomment %}
+{% liquid
+  assign alt_1 = section.settings.image_1.alt | default: section.settings.title_1
+  assign alt_2 = section.settings.image_2.alt | default: section.settings.title_2
+  assign alt_3 = section.settings.image_3.alt | default: section.settings.title_3
+%}
+
+<div class="section section--full-width desire-trio desire-trio--width-{{ section.settings.section_width | default: 'full-width' }}" style="background: {{ section.settings.background_color | default: '#FFFFFF' }}; margin-block-start: {{ section.settings.spacing_top | default: 0 }}px; margin-block-end: {{ section.settings.spacing_bottom | default: 0 }}px;">
+  <div class="desire-trio__inner">
+    <ul class="desire-trio__grid" role="list">
+      <li class="desire-trio__card">
+        {% if section.settings.image_1 != blank %}
+          {{ section.settings.image_1 | image_url: width: 900 | image_tag: widths: '400, 600, 900', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', alt: alt_1, class: 'desire-trio__img' }}
+        {% else %}
+          {{ 'hero-apparel-3' | placeholder_svg_tag: 'desire-trio__img' }}
+        {% endif %}
+        <div class="desire-trio__body">
+          <h3 class="desire-trio__title">{{ section.settings.title_1 | escape }}</h3>
+          <div class="desire-trio__text">{{ section.settings.text_1 }}</div>
+        </div>
+      </li>
+      <li class="desire-trio__card">
+        {% if section.settings.image_2 != blank %}
+          {{ section.settings.image_2 | image_url: width: 900 | image_tag: widths: '400, 600, 900', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', alt: alt_2, class: 'desire-trio__img' }}
+        {% else %}
+          {{ 'hero-apparel-1' | placeholder_svg_tag: 'desire-trio__img' }}
+        {% endif %}
+        <div class="desire-trio__body">
+          <h3 class="desire-trio__title">{{ section.settings.title_2 | escape }}</h3>
+          <div class="desire-trio__text">{{ section.settings.text_2 }}</div>
+        </div>
+      </li>
+      <li class="desire-trio__card">
+        {% if section.settings.image_3 != blank %}
+          {{ section.settings.image_3 | image_url: width: 900 | image_tag: widths: '400, 600, 900', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', alt: alt_3, class: 'desire-trio__img' }}
+        {% else %}
+          {{ 'hero-apparel-2' | placeholder_svg_tag: 'desire-trio__img' }}
+        {% endif %}
+        <div class="desire-trio__body">
+          <h3 class="desire-trio__title">{{ section.settings.title_3 | escape }}</h3>
+          <div class="desire-trio__text">{{ section.settings.text_3 }}</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .desire-trio {
+    color: #1c1a1e;
+  }
+
+  .desire-trio__inner {
+    max-width: none;
+    margin-inline: 0;
+    padding: 28px 20px 40px;
+  }
+
+  .desire-trio--width-page-width .desire-trio__inner {
+    max-width: 1400px;
+    margin-inline: auto;
+  }
+
+  .desire-trio__grid {
+    list-style: none;
+    display: grid;
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .desire-trio__card {
+    display: flex;
+    flex-direction: column;
+    background: #ece7df;
+    border-radius: 22px;
+    padding: 16px 16px 22px;
+    box-shadow:
+      9px 9px 22px rgb(101 90 80 / 0.22),
+      -9px -9px 22px #fff;
+    transition: transform var(--animation-speed, 0.125s) ease-in-out, box-shadow var(--animation-speed, 0.125s) ease-in-out;
+  }
+
+  .desire-trio__card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      12px 12px 28px rgb(101 90 80 / 0.26),
+      -12px -12px 28px #fff;
+  }
+
+  .desire-trio__img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #f2efe9;
+  }
+
+  .desire-trio__body {
+    padding: 20px 0 6px;
+  }
+
+  .desire-trio__title {
+    font-family: var(--font-heading--family, Georgia, 'Times New Roman', serif);
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: #1c1a1e;
+    margin: 0 0 8px;
+    padding-inline: 8px;
+    text-wrap: balance;
+  }
+
+  .desire-trio__text {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: rgb(28 26 30 / 0.72);
+    max-width: 38ch;
+    padding-inline: 8px;
+  }
+
+  .desire-trio__text p {
+    margin: 0;
+  }
+
+  .desire-trio__text p + p {
+    margin-top: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .desire-trio__card,
+    .desire-trio__card:hover {
+      transform: none;
+    }
+  }
+
+  .desire-trio__text p {
+    margin: 0;
+  }
+
+  @media screen and (min-width: 990px) {
+    .desire-trio__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Desire trio",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FFFFFF" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "full-width"
+    },
+    { "type": "range", "id": "spacing_top", "label": "Top spacing (gap above section)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "spacing_bottom", "label": "Bottom spacing (gap below section)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "image_picker", "id": "image_1", "label": "Card 1 image" },
+    { "type": "text", "id": "title_1", "label": "Card 1 title", "default": "Zacht en stijlvol" },
+    { "type": "richtext", "id": "text_1", "label": "Card 1 text", "default": "<p>Een tijdloos design dat mooi staat in elke kamer.</p>" },
+    { "type": "image_picker", "id": "image_2", "label": "Card 2 image" },
+    { "type": "text", "id": "title_2", "label": "Card 2 title", "default": "Hoogwaardige kwaliteit" },
+    { "type": "richtext", "id": "text_2", "label": "Card 2 text", "default": "<p>Gemaakt van zachte, duurzame materialen met oog voor detail.</p>" },
+    { "type": "image_picker", "id": "image_3", "label": "Card 3 image" },
+    { "type": "text", "id": "title_3", "label": "Card 3 title", "default": "Inclusief mini-vibrator" },
+    { "type": "richtext", "id": "text_3", "label": "Card 3 text", "default": "<p>Discreet, stijlvol en krachtige toevoeging.</p>" }
+  ],
+  "presets": [{ "name": "Desire trio", "category": "Custom" }]
+}
+{% endschema %}

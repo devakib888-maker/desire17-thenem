@@ -1,0 +1,299 @@
+{% comment %}
+  Desire17 details: hidden compartment story. Image left, copy right.
+{% endcomment %}
+{% liquid
+  assign details_alt = section.settings.image.alt | default: 'Teddy achterkant met rits'
+  assign icon_1 = section.settings.icon_1 | default: 'lock'
+  assign icon_2 = section.settings.icon_2 | default: 'star'
+  assign icon_3 = section.settings.icon_3 | default: 'home'
+%}
+
+<div
+  class="section-background"
+  style="background: {{ section.settings.background_color | default: '#EFEAF3' }};"
+></div>
+<div
+  class="section section--full-width desire-details desire-details--{{ section.settings.content_size | default: 'medium' }} desire-details--width-{{ section.settings.section_width | default: 'full-width' }}"
+  style="--desire-details-bg: {{ section.settings.background_color | default: '#EFEAF3' }}; margin-block-start: {{ section.settings.spacing_top | default: 0 }}px; margin-block-end: {{ section.settings.spacing_bottom | default: 0 }}px;"
+>
+  <div class="desire-details__inner">
+    <div class="desire-details__media">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 1400
+          | image_tag:
+            widths: '500, 800, 1100, 1400',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            loading: 'lazy',
+            alt: details_alt,
+            class: 'desire-details__img'
+        }}
+      {% else %}
+        {{ 'hero-apparel-2' | placeholder_svg_tag: 'desire-details__img' }}
+      {% endif %}
+    </div>
+    <div
+      class="desire-details__copy"
+      style="padding-top: {{ section.settings.padding_top | default: 24 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 24 }}px;"
+    >
+      {% if section.settings.eyebrow != blank %}
+        <p class="desire-details__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="desire-details__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="desire-details__text">{{ section.settings.text }}</div>
+      {% endif %}
+      <ul class="desire-details__proofs" role="list">
+        <li>
+          <svg viewBox="0 0 20 20" width="24" height="24" fill="currentColor" aria-hidden="true">{% render 'desire-icon', icon: icon_1 %}</svg>
+          <span>{{ section.settings.item_1 | escape }}</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" width="24" height="24" fill="currentColor" aria-hidden="true">{% render 'desire-icon', icon: icon_2 %}</svg>
+          <span>{{ section.settings.item_2 | escape }}</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" width="24" height="24" fill="currentColor" aria-hidden="true">{% render 'desire-icon', icon: icon_3 %}</svg>
+          <span>{{ section.settings.item_3 | escape }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .desire-details {
+    background: var(--desire-details-bg, #efeaf3);
+    color: #1c1a1e;
+  }
+
+  .desire-details__inner {
+    display: grid;
+    max-width: none;
+    margin-inline: 0;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .desire-details--width-page-width .desire-details__inner {
+    max-width: 1400px;
+    margin-inline: auto;
+  }
+
+  .desire-details__media {
+    overflow: hidden;
+    border-radius: 12px;
+    min-width: 0;
+  }
+
+  .desire-details__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+  }
+
+  .desire-details__copy {
+    padding: 24px 20px;
+    align-self: center;
+    min-width: 0;
+  }
+
+  .desire-details__eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(28 26 30 / 0.6);
+    margin: 0 0 12px;
+  }
+
+  .desire-details__heading {
+    font-family: var(--font-heading--family, Georgia, 'Times New Roman', serif);
+    font-weight: 400;
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+
+  .desire-details__text {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: rgb(28 26 30 / 0.75);
+    max-width: 46ch;
+  }
+
+  .desire-details__text p {
+    margin: 0;
+  }
+
+  .desire-details--small .desire-details__heading {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  }
+
+  .desire-details--large .desire-details__heading {
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+  }
+
+  .desire-details--small .desire-details__text {
+    font-size: 0.9rem;
+  }
+
+  .desire-details--large .desire-details__text {
+    font-size: 1.08rem;
+  }
+
+  .desire-details__proofs {
+    list-style: none;
+    display: flex;
+    gap: 14px;
+    margin: 26px 0 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  .desire-details__proofs li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: rgb(28 26 30 / 0.8);
+    background: #fff;
+    border: 1px solid rgb(28 26 30 / 0.07);
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgb(28 26 30 / 0.08);
+    padding: 18px 14px;
+    flex: 1 1 0;
+    min-width: 120px;
+    transition: transform var(--animation-speed, 0.125s) ease-in-out, box-shadow var(--animation-speed, 0.125s) ease-in-out;
+  }
+
+  .desire-details__proofs li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgb(28 26 30 / 0.12);
+  }
+
+  .desire-details__proofs svg {
+    width: 26px;
+    height: 26px;
+    color: var(--desire-details-accent, #695477);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .desire-details__proofs li,
+    .desire-details__proofs li:hover {
+      transform: none;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .desire-details__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 28px;
+    }
+
+    .desire-details__copy {
+      padding: 24px 48px 24px 24px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Desire details",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#EFEAF3" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "full-width"
+    },
+    { "type": "image_picker", "id": "image", "label": "Detail image (back with zip)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "SLIMME DETAILS" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Discreet opgeborgen. Mooi neergezet.</p>" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Aan de achterkant van de teddy zit een verborgen opbergvak met ritssluiting, speciaal voor de meegeleverde mini-vibrator. Zo blijft alles netjes en discreet, terwijl de teddy een stijlvolle plek in je interieur behoudt.</p>" },
+    {
+      "type": "select",
+      "id": "content_size",
+      "label": "Content size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24 },
+    { "type": "range", "id": "spacing_top", "label": "Top spacing (gap above section)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "spacing_bottom", "label": "Bottom spacing (gap below section)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "text", "id": "item_1", "label": "Item 1", "default": "Verborgen opbergvak" },
+    {
+      "type": "select",
+      "id": "icon_1",
+      "label": "Item 1 icon",
+      "options": [
+        { "value": "lock", "label": "Lock" },
+        { "value": "star", "label": "Star" },
+        { "value": "home", "label": "Home" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "box", "label": "Box" },
+        { "value": "eye", "label": "Eye" },
+        { "value": "check", "label": "Check" }
+      ],
+      "default": "lock"
+    },
+    { "type": "text", "id": "item_2", "label": "Item 2", "default": "Netjes en discreet" },
+    {
+      "type": "select",
+      "id": "icon_2",
+      "label": "Item 2 icon",
+      "options": [
+        { "value": "lock", "label": "Lock" },
+        { "value": "star", "label": "Star" },
+        { "value": "home", "label": "Home" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "box", "label": "Box" },
+        { "value": "eye", "label": "Eye" },
+        { "value": "check", "label": "Check" }
+      ],
+      "default": "star"
+    },
+    { "type": "text", "id": "item_3", "label": "Item 3", "default": "Mooi in elk interieur" },
+    {
+      "type": "select",
+      "id": "icon_3",
+      "label": "Item 3 icon",
+      "options": [
+        { "value": "lock", "label": "Lock" },
+        { "value": "star", "label": "Star" },
+        { "value": "home", "label": "Home" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "box", "label": "Box" },
+        { "value": "eye", "label": "Eye" },
+        { "value": "check", "label": "Check" }
+      ],
+      "default": "home"
+    }
+  ],
+  "presets": [{ "name": "Desire details", "category": "Custom" }]
+}
+{% endschema %}

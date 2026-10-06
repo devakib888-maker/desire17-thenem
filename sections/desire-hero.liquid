@@ -1,0 +1,308 @@
+{% comment %}
+  Desire17 hero. Two-column editorial hero matching reference:
+  left copy + CTA + price + 3 proof icons, right lifestyle image.
+{% endcomment %}
+
+{% liquid
+  assign btn_link = section.settings.button_link
+  if section.settings.product != blank and btn_link == blank
+    assign btn_link = section.settings.product.url
+  endif
+  assign price_text = section.settings.price_text
+  if section.settings.product != blank and section.settings.show_product_price
+    assign price_text = section.settings.product.price | money
+  endif
+  assign hero_alt = section.settings.image.alt | default: 'Desire17 teddy'
+%}
+
+<div
+  class="section-background desire-hero__bg"
+  style="background-color: {{ section.settings.background_color | default: '#FAF9F6' }}; --desire-hero-bg: {{ section.settings.background_color | default: '#FAF9F6' }};"
+></div>
+<div
+  class="section section--full-width desire-hero desire-hero--{{ section.settings.section_width | default: 'full-width' }}"
+  style="--desire-hero-bg: {{ section.settings.background_color | default: '#FAF9F6' }}; --desire-hero-btn: {{ section.settings.button_color | default: '#695477' }}; margin-block-start: {{ section.settings.spacing_top | default: 0 }}px; margin-block-end: {{ section.settings.spacing_bottom | default: 0 }}px;"
+>
+  <div class="desire-hero__inner">
+    <div class="desire-hero__copy">
+      {% if section.settings.eyebrow != blank %}
+        <p class="desire-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h1 class="desire-hero__heading">{{ section.settings.heading }}</h1>
+      {% endif %}
+      {% if section.settings.subtext != blank %}
+        <div class="desire-hero__sub">{{ section.settings.subtext }}</div>
+      {% endif %}
+      <div class="desire-hero__actions">
+        {% if section.settings.button_label != blank %}
+          <a
+            class="desire-hero__button"
+            {% if btn_link != blank %}href="{{ btn_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+          >
+            <span>{{ section.settings.button_label | escape }}</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        {% endif %}
+        {% if price_text != blank %}
+          <span class="desire-hero__divider" aria-hidden="true"></span>
+          <span class="desire-hero__price">{{ price_text | escape }}</span>
+        {% endif %}
+      </div>
+      <ul class="desire-hero__proofs" role="list">
+        <li>
+          <svg viewBox="0 0 20 20" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M18.6307 0.0851008C18.9214 0.143319 19.2573 0.251631 19.499 0.483071C19.7487 0.722288 19.8616 1.06444 19.9202 1.35568C19.9821 1.66275 20.0008 2.00418 20 2.32523C19.9986 2.89096 19.9355 3.45932 19.9011 3.76888C19.8965 3.81064 19.8924 3.8477 19.889 3.8794L19.8885 3.88469C19.7574 5.00604 19.5546 6.53586 19.2559 8.16345C18.9577 9.77538 18.5618 11.5447 18.0423 13.1175L18.0415 13.1198C17.54 14.6143 16.835 16.2292 15.7876 17.2779C12.1807 20.8897 6.31722 20.917 2.70668 17.3017C-0.903844 13.6864 -0.876728 7.8151 2.73025 4.20335C3.77726 3.15495 5.37751 2.44898 6.88416 1.94609L6.88527 1.94573C8.4557 1.42559 10.21 1.02928 11.8328 0.73059C13.4582 0.431407 14.986 0.228254 16.1059 0.097027L16.1111 0.0964089C16.1231 0.0951308 16.1358 0.0937998 16.1492 0.09237C16.4416 0.0610531 17.0517 -0.0042707 17.6652 0.000220251C17.9855 0.00256445 18.3248 0.0238389 18.6307 0.0851008ZM16.2207 1.10269C15.114 1.23241 13.6107 1.4325 12.0155 1.72612C10.4166 2.02043 8.71247 2.40674 7.20334 2.90653C5.72522 3.39993 4.31684 4.04614 3.44505 4.91909C0.229287 8.13911 0.209266 13.3695 3.42148 16.5859C6.63368 19.8024 11.8571 19.7822 15.0728 16.5622C15.9442 15.6897 16.5895 14.2687 17.0829 12.7984C17.5818 11.2879 17.9676 9.5703 18.2616 7.98044C18.5549 6.38318 18.7546 4.8779 18.8841 3.76969C18.8878 3.73473 18.8921 3.69563 18.8969 3.65288C18.9315 3.33899 18.9879 2.82875 18.9891 2.32275C18.9898 2.03445 18.9722 1.76875 18.9293 1.5558C18.8832 1.32703 18.8229 1.23626 18.8002 1.21454C18.7694 1.18504 18.6656 1.12434 18.4325 1.07766C18.2146 1.03402 17.9461 1.01452 17.6578 1.01241C17.1035 1.00835 16.5429 1.06826 16.2505 1.09951C16.2402 1.10061 16.2303 1.10167 16.2207 1.10269Z" /><path d="M19.4297 0.501734C19.6261 0.7004 19.6244 1.02084 19.426 1.21747L0.860985 19.6161C0.662582 19.8127 0.342561 19.811 0.146198 19.6124C-0.0501654 19.4137 -0.0485124 19.0933 0.14989 18.8966L18.7149 0.498038C18.9133 0.301414 19.2334 0.303069 19.4297 0.501734Z" /><path d="M5.62257 2.4772H6.12801V13.6663H17.3961V14.1724H5.62257V2.4772Z" /><path d="M10.1879 1.18752H10.6933L10.6933 9.14731H18.7842V9.65342H10.1879L10.1879 1.18752Z" /></svg>
+          <span>{{ section.settings.proof_1 | escape }}</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M10 5.2393L8.5149 3.77392C6.79996 2.08174 4.01945 2.08174 2.30451 3.77392C0.589562 5.4661 0.589563 8.2097 2.30451 9.90188L10 17.4952L17.6955 9.90188C19.4104 8.2097 19.4104 5.4661 17.6955 3.77392C15.9805 2.08174 13.2 2.08174 11.4851 3.77392L10 5.2393ZM10.765 3.06343C12.8777 0.978857 16.3029 0.978856 18.4155 3.06343C20.5282 5.148 20.5282 8.52779 18.4155 10.6124L10.72 18.2057C10.3224 18.5981 9.67763 18.5981 9.27996 18.2057L1.58446 10.6124C-0.528154 8.52779 -0.528154 5.14801 1.58446 3.06343C3.69708 0.978859 7.12233 0.978858 9.23495 3.06343L10 3.81832L10.765 3.06343Z" fill-rule="evenodd" /></svg>
+          <span>{{ section.settings.proof_2 | escape }}</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M9.69502 0.6786C9.91338 0.601796 10.1516 0.603123 10.3691 0.682353L18.2151 3.54058C18.61 3.68445 18.8728 4.05988 18.8728 4.48018V14.4287C18.8728 14.8074 18.6588 15.1537 18.32 15.3231L10.4731 19.2465C10.196 19.385 9.87022 19.3873 9.59117 19.2526L1.45405 15.3244C1.10843 15.1576 0.888794 14.8076 0.888794 14.4239V4.48434C0.888794 4.05997 1.15665 3.68181 1.55699 3.541L9.69502 0.6786ZM6.07999 3.01017L2.5346 4.25719L10.149 7.63545L13.5692 6.118L6.07999 3.01017ZM6.78606 2.76183L14.1997 5.83828L17.5367 4.35774L10.0268 1.62195L6.78606 2.76183ZM1.88879 14.4239L1.88879 5.06467L9.64898 8.50762V18.1701L1.88879 14.4239ZM17.8728 14.4287L10.649 18.0405V8.50762L17.8728 5.30263V14.4287Z" fill-rule="evenodd" /></svg>
+          <span>{{ section.settings.proof_3 | escape }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="desire-hero__media">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 1600
+          | image_tag:
+            widths: '600, 900, 1200, 1600',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            fetchpriority: 'high',
+            alt: hero_alt,
+            class: 'desire-hero__img'
+        }}
+      {% else %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'desire-hero__img desire-hero__placeholder' }}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .desire-hero__bg {
+    background: var(--desire-hero-bg, #faf9f6);
+  }
+
+  .desire-hero {
+    background: var(--desire-hero-bg, #faf9f6);
+    color: #1c1a1e;
+    container-type: inline-size;
+  }
+
+  .desire-hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .desire-hero--page-width .desire-hero__inner {
+    max-width: 1400px;
+    margin-inline: auto;
+  }
+
+  .desire-hero__copy {
+    padding: 40px 24px 32px;
+    min-width: 0;
+  }
+
+  .desire-hero__eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(28 26 30 / 0.62);
+    margin: 0 0 14px;
+  }
+
+  .desire-hero__heading {
+    font-family: var(--font-heading--family, Georgia, 'Times New Roman', serif);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+
+  .desire-hero__sub {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgb(28 26 30 / 0.72);
+    max-width: 34ch;
+  }
+
+  .desire-hero__sub p {
+    margin: 0;
+  }
+
+  .desire-hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .desire-hero__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--desire-hero-btn, #695477);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 13px 26px;
+    border-radius: 6px;
+    min-height: 48px;
+  }
+
+  .desire-hero__button:hover {
+    filter: brightness(1.07);
+  }
+
+  .desire-hero__button:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 3px;
+  }
+
+  .desire-hero__divider {
+    width: 1px;
+    height: 28px;
+    background: rgb(28 26 30 / 0.25);
+  }
+
+  .desire-hero__price {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .desire-hero__proofs {
+    list-style: none;
+    display: flex;
+    gap: 14px;
+    padding: 28px 0 0;
+    margin: 0;
+    flex-wrap: wrap;
+  }
+
+  .desire-hero__proofs li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: rgb(28 26 30 / 0.8);
+    background: #fff;
+    border: 1px solid rgb(28 26 30 / 0.07);
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgb(28 26 30 / 0.08);
+    padding: 16px 18px;
+    flex: 0 1 auto;
+    width: fit-content;
+    transition: transform var(--animation-speed, 0.125s) ease-in-out, box-shadow var(--animation-speed, 0.125s) ease-in-out;
+  }
+
+  .desire-hero__proofs li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgb(28 26 30 / 0.12);
+  }
+
+  .desire-hero__proofs svg {
+    width: 26px;
+    height: 26px;
+    color: var(--desire-hero-btn, #695477);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .desire-hero__proofs li,
+    .desire-hero__proofs li:hover {
+      transform: none;
+    }
+  }
+
+  .desire-hero__media {
+    min-width: 0;
+    min-height: 320px;
+  }
+
+  .desire-hero__media img,
+  .desire-hero__media svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (min-width: 990px) {
+    .desire-hero__inner {
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: stretch;
+    }
+
+    .desire-hero__copy {
+      flex: 1 1 0;
+    }
+
+    .desire-hero__media {
+      flex: 1.15 1 0;
+    }
+
+    .desire-hero__copy {
+      padding: 72px 40px 56px 56px;
+      align-self: center;
+    }
+
+    .desire-hero__media {
+      min-height: 560px;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .desire-hero__media {
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Desire hero",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "full-width"
+    },
+    { "type": "range", "id": "spacing_top", "label": "Top spacing (gap above section)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "spacing_bottom", "label": "Bottom spacing (gap below section)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FAF9F6" },
+    { "type": "color", "id": "button_color", "label": "Button color", "default": "#695477" },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "ZACHT. DISCREET. VAN JOU." },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Een plek voor jezelf.</p>" },
+    { "type": "richtext", "id": "subtext", "label": "Subtext", "default": "<p>Teddy met verborgen opbergvak, inclusief mini-vibrator. 18+</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Ontdek de teddy" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "product", "id": "product", "label": "Product (for price + link fallback)" },
+    { "type": "checkbox", "id": "show_product_price", "label": "Use product price", "default": true },
+    { "type": "text", "id": "price_text", "label": "Fallback price", "default": "€ 49,99" },
+    { "type": "text", "id": "proof_1", "label": "Proof 1", "default": "Discreet design" },
+    { "type": "text", "id": "proof_2", "label": "Proof 2", "default": "Zacht en hoogwaardig" },
+    { "type": "text", "id": "proof_3", "label": "Proof 3", "default": "Compleet geleverd" }
+  ],
+  "presets": [{ "name": "Desire hero", "category": "Custom" }]
+}
+{% endschema %}

@@ -1,0 +1,343 @@
+{%- comment -%}
+  Custom Popup Modal - Desire17
+  Looks like age-verification, but OPENS ONLY on button click.
+
+  How to use:
+  1. Add this in layout/theme.liquid right after <body>:
+     {% render 'custom-modal' %}
+  2. On ANY button/link in customizer, set link URL to: #desire-modal
+     Clicking that button will open this modal instead of going to a page.
+  3. Edit text + buttons in Customizer > Theme settings > Custom Modal.
+
+  Also works with: <button data-open-desire-modal>Text</button>
+  Translation-proof (recommended for Markets/Transcy): use data-open-desire-modal
+  attribute instead of href, translation apps rewrite href with /nl + new domain
+  but never touch data attributes.
+{%- endcomment -%}
+
+{%- if settings.enable_custom_modal != false -%}
+<style>
+  #desire-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000000;
+    background: rgba(41, 41, 41, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #desire-modal-overlay[hidden] {
+    display: none !important;
+  }
+  #desire-modal-overlay .desire-modal-box {
+    background: linear-gradient(145deg, #ffffff, #FAF9F6);
+    max-width: 560px;
+    width: 100%;
+    padding: 40px 48px 44px;
+    border-radius: 28px;
+    text-align: center;
+    box-shadow:
+      0 30px 80px rgba(41, 41, 41, 0.35),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  #desire-modal-overlay:not([hidden]) .desire-modal-box {
+    animation: desirePop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  }
+  @keyframes desirePop {
+    from {
+      opacity: 0;
+      transform: scale(0.92) translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  #desire-modal-overlay .desire-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: #FAF9F6;
+    color: #292929;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px #d8d2c7, -5px -5px 10px #ffffff;
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+  #desire-modal-overlay .desire-modal-close:hover {
+    color: #695477;
+  }
+  #desire-modal-overlay .desire-modal-close:active {
+    box-shadow: inset 4px 4px 8px #d8d2c7, inset -4px -4px 8px #ffffff;
+    transform: scale(0.96);
+  }
+  /* Small inset pill */
+  #desire-modal-overlay .desire-modal-pill {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #695477;
+    background: #F0ECE6;
+    padding: 9px 18px;
+    border-radius: 999px;
+    margin: 0 0 22px;
+    box-shadow: inset 4px 4px 8px #d5cfc3, inset -4px -4px 8px #ffffff;
+  }
+  /* Neumorphic icon */
+  #desire-modal-overlay .desire-modal-icon {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    margin: 0 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #695477;
+    background: linear-gradient(145deg, #E8E0F0, #d3c6e6);
+    box-shadow: 9px 9px 18px #d8d2c7, -9px -9px 18px #ffffff;
+  }
+  #desire-modal-overlay .desire-modal-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 0 0 12px;
+    color: #292929;
+  }
+  #desire-modal-overlay .desire-modal-divider {
+    width: 64px;
+    height: 5px;
+    border-radius: 999px;
+    background: #E8E0F0;
+    margin: 2px 0 16px;
+    box-shadow: inset 2px 2px 4px #c9bde0, inset -2px -2px 4px #ffffff;
+  }
+  #desire-modal-overlay .desire-modal-text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(41, 41, 41, 0.72);
+    margin: 0 0 30px;
+    max-width: 380px;
+  }
+  #desire-modal-overlay .desire-modal-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  #desire-modal-overlay .desire-modal-btn {
+    flex: 1;
+    min-width: 170px;
+    padding: 16px 24px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    border-radius: 16px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  }
+  #desire-modal-btn1 {
+    background: linear-gradient(145deg, #746084, #695477);
+    color: #ffffff;
+    box-shadow: 7px 7px 14px #d8d2c7, -7px -7px 14px #ffffff;
+  }
+  #desire-modal-btn1:hover {
+    transform: translateY(-1px);
+    opacity: 0.97;
+  }
+  #desire-modal-btn1:active {
+    transform: scale(0.98);
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3), inset -3px -3px 8px rgba(255, 255, 255, 0.15);
+  }
+  #desire-modal-btn2 {
+    background: #F0ECE6;
+    color: #292929;
+    font-weight: 600;
+    box-shadow: 7px 7px 14px #d8d2c7, -7px -7px 14px #ffffff;
+  }
+  #desire-modal-btn2:hover {
+    transform: translateY(-1px);
+    background: #E8E0F0;
+  }
+  #desire-modal-btn2:active {
+    transform: scale(0.98);
+    box-shadow: inset 5px 5px 10px #d5cfc3, inset -5px -5px 10px #ffffff;
+  }
+  @media screen and (max-width: 550px) {
+    #desire-modal-overlay .desire-modal-box {
+      padding: 32px 22px 30px;
+      border-radius: 22px;
+    }
+    #desire-modal-overlay .desire-modal-title {
+      font-size: 24px;
+    }
+    #desire-modal-overlay .desire-modal-actions {
+      flex-direction: column;
+    }
+    #desire-modal-overlay .desire-modal-btn {
+      width: 100%;
+    }
+  }
+  body.desire-modal-locked {
+    overflow: hidden !important;
+  }
+</style>
+
+<div id="desire-modal-overlay" hidden>
+  <div class="desire-modal-box" role="dialog" aria-modal="true" aria-labelledby="desire-modal-title">
+    {%- assign modal_title = settings.custom_modal_title -%}
+    {%- if modal_title == blank or modal_title == 'Welcome to Desire17' -%}
+      {%- assign modal_title = 'custom_modal.title' | t -%}
+    {%- endif -%}
+    {%- assign modal_text = settings.custom_modal_text -%}
+    {%- if modal_text == blank or modal_text == 'This website is intended for adults aged 18 and over.' -%}
+      {%- assign modal_text = 'custom_modal.text' | t -%}
+    {%- endif -%}
+    {%- assign modal_btn1 = settings.custom_modal_btn1_label -%}
+    {%- if modal_btn1 == blank or modal_btn1 == "I'm 18+" -%}
+      {%- assign modal_btn1 = 'custom_modal.btn1' | t -%}
+    {%- endif -%}
+    {%- assign modal_btn2 = settings.custom_modal_btn2_label -%}
+    {%- if modal_btn2 == blank or modal_btn2 == "I'm under 18" -%}
+      {%- assign modal_btn2 = 'custom_modal.btn2' | t -%}
+    {%- endif -%}
+    <button type="button" class="desire-modal-close" data-desire-close aria-label="{{ 'custom_modal.close' | t }}">&times;</button>
+    <div class="desire-modal-pill">{{ 'custom_modal.pill' | t }}</div>
+    <div class="desire-modal-icon">18+</div>
+    <h2 id="desire-modal-title" class="desire-modal-title">{{ modal_title }}</h2>
+    <div class="desire-modal-divider"></div>
+    <p class="desire-modal-text">{{ modal_text }}</p>
+    <div class="desire-modal-actions">
+      {%- assign btn1_link = settings.custom_modal_btn1_link -%}
+      {%- assign btn2_link = settings.custom_modal_btn2_link -%}
+      {% if btn1_link != blank %}
+        <a id="desire-modal-btn1" class="desire-modal-btn" href="{{ btn1_link }}">{{ modal_btn1 }}</a>
+      {% else %}
+        <button type="button" id="desire-modal-btn1" class="desire-modal-btn" data-desire-close>{{ modal_btn1 }}</button>
+      {% endif %}
+      {% if btn2_link != blank %}
+        <a id="desire-modal-btn2" class="desire-modal-btn" href="{{ btn2_link }}">{{ modal_btn2 }}</a>
+      {% else %}
+        <button type="button" id="desire-modal-btn2" class="desire-modal-btn" data-desire-close>{{ modal_btn2 }}</button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var overlay = document.getElementById('desire-modal-overlay');
+    if (!overlay) return;
+
+    function openModal() {
+      // Cart drawer uses native <dialog> top-layer, always above normal divs.
+      // Close it first so popup comes on top.
+      try {
+        var drawer = document.getElementById('cart-drawer');
+        if (drawer && typeof drawer.close === 'function') drawer.close();
+        var openDlg = drawer ? drawer.querySelector('dialog[open]') : null;
+        if (openDlg && typeof openDlg.close === 'function') openDlg.close();
+      } catch (e) {}
+      overlay.hidden = false;
+      document.body.classList.add('desire-modal-locked');
+      document.documentElement.classList.add('desire-modal-locked');
+    }
+    function closeModal() {
+      overlay.hidden = true;
+      document.body.classList.remove('desire-modal-locked');
+      document.documentElement.classList.remove('desire-modal-locked');
+    }
+
+    // 1b. Auto-tag cart drawer CONTINUE SHOPPING buttons (empty cart).
+    // Live Horizon theme has no data attribute on that button, so tag by text.
+    // Covers EN + NL without editing cart files.
+    function tagCartContinue() {
+      var btns = document.querySelectorAll('#cart-drawer a, #cart-drawer button, [id*="cart-drawer"] a, [id*="cart-drawer"] button');
+      for (var i = 0; i < btns.length; i++) {
+        var txt = (btns[i].textContent || '').trim().toLowerCase();
+        if (
+          txt === 'continue shopping' ||
+          txt.indexOf('continue shopping') !== -1 ||
+          txt.indexOf('verder winkelen') !== -1 ||
+          txt.indexOf('doorgaan met winkelen') !== -1 ||
+          txt.indexOf('weiter einkaufen') !== -1
+        ) {
+          btns[i].setAttribute('data-open-desire-modal', '');
+        }
+      }
+    }
+    tagCartContinue();
+    if ('MutationObserver' in window) {
+      new MutationObserver(tagCartContinue).observe(document.body, { childList: true, subtree: true });
+    }
+
+    // 1. Any link pointing to #desire-modal opens the modal
+    // Works with translation / Markets: "#desire-modal", "/nl#desire-modal",
+    // "/nl/#desire-modal", "https://domain.nl/nl#desire-modal", etc.
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest('a[href], [data-open-desire-modal]');
+      if (el) {
+        if (el.hasAttribute('data-open-desire-modal')) {
+          e.preventDefault();
+          openModal();
+          return;
+        }
+        if (el.tagName === 'A') {
+          var raw = el.getAttribute('href') || '';
+          var hash = '';
+          try {
+            hash = el.hash || '';
+          } catch (err) {}
+          if (!hash && raw.indexOf('#') !== -1) {
+            hash = raw.slice(raw.indexOf('#'));
+          }
+          if (hash === '#desire-modal' || hash === '#open-modal') {
+            e.preventDefault();
+            openModal();
+            return;
+          }
+        }
+      }
+      // 2. Close on X / buttons with data-desire-close, or click on dark background
+      if (e.target.closest('[data-desire-close]') || e.target === overlay) {
+        closeModal();
+      }
+    });
+
+    // 3. Close on ESC key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !overlay.hidden) closeModal();
+    });
+
+    // For theme editor: expose manual open
+    window.openDesireModal = openModal;
+    window.closeDesireModal = closeModal;
+  })();
+</script>
+{%- endif -%}
