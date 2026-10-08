@@ -210,11 +210,7 @@
 </style>
 
 <div id="desire-modal-overlay" hidden>
-  <div class="desire-modal-box" role="dialog" aria-modal="true" aria-labelledby="desire-modal-title">
-    {%- assign modal_title = settings.custom_modal_title -%}
-    {%- if modal_title == blank or modal_title == 'Welcome to Desire17' -%}
-      {%- assign modal_title = 'custom_modal.title' | t -%}
-    {%- endif -%}
+  <div class="desire-modal-box" role="dialog" aria-modal="true">
     {%- assign modal_text = settings.custom_modal_text -%}
     {%- if modal_text == blank or modal_text == 'This website is intended for adults aged 18 and over.' -%}
       {%- assign modal_text = 'custom_modal.text' | t -%}
@@ -230,7 +226,6 @@
     <button type="button" class="desire-modal-close" data-desire-close aria-label="{{ 'custom_modal.close' | t }}">&times;</button>
     <div class="desire-modal-pill">{{ 'custom_modal.pill' | t }}</div>
     <div class="desire-modal-icon">18+</div>
-    <h2 id="desire-modal-title" class="desire-modal-title">{{ modal_title }}</h2>
     <div class="desire-modal-divider"></div>
     <p class="desire-modal-text">{{ modal_text }}</p>
     <div class="desire-modal-actions">
