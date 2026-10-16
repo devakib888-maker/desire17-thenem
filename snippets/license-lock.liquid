@@ -1,0 +1,270 @@
+{%- comment -%}
+  LICENSE LOCK - Desire17
+  ------------------------
+  * Hardcoded fullscreen lock screen. No theme settings, so it CANNOT be
+    changed from Customize (theme editor).
+  * Rendered in layout/theme.liquid right after <body>, so when this theme
+    is live / previewed, the lock screen shows FIRST on every page.
+  * Visitor (or buyer) must enter the license key. The key itself is NOT
+    stored here - only its SHA-256 hash below. On match, the browser is
+    marked unlocked (localStorage) and the real design becomes visible.
+  * Each browser/device unlocks separately with the same key.
+  * AFTER handover / payment: delete this file + remove the
+    {% render 'license-lock' %} line from layout/theme.liquid.
+{%- endcomment -%}
+
+<div id="license-lock">
+  <div class="license-lock-card" role="dialog" aria-modal="true" aria-labelledby="license-lock-title">
+    <div class="license-lock-icon" aria-hidden="true">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="10" width="16" height="10" rx="2.5" fill="currentColor" opacity="0.9"/>
+        <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12" cy="15" r="1.6" fill="#fff"/>
+      </svg>
+    </div>
+    <p class="license-lock-brand">Desire17 &middot; Licensed Theme</p>
+    <h2 class="license-lock-title" id="license-lock-title">This theme is locked</h2>
+    <p class="license-lock-text">Enter your license key to unlock the website design and customization.</p>
+    <form class="license-lock-form" id="license-lock-form" autocomplete="off">
+      <label class="license-lock-label" for="license-lock-key">License key</label>
+      <input
+        class="license-lock-input"
+        type="password"
+        id="license-lock-key"
+        name="license-key"
+        placeholder="Paste your license key"
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <p class="license-lock-error" id="license-lock-error" hidden>Wrong key. Please try again.</p>
+      <button class="license-lock-btn" type="submit" id="license-lock-btn">Unlock theme</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  #license-lock {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(145deg, #f6f0e9, #efeaf3);
+  }
+  #license-lock[hidden] {
+    display: none !important;
+  }
+  body.license-locked {
+    overflow: hidden !important;
+  }
+  #license-lock .license-lock-card {
+    background: #ffffff;
+    max-width: 440px;
+    width: 100%;
+    padding: 40px 36px 36px;
+    border-radius: 28px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(105, 84, 119, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #license-lock .license-lock-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: linear-gradient(145deg, #746084, #695477);
+    box-shadow: 7px 7px 16px rgba(105, 84, 119, 0.35);
+  }
+  #license-lock .license-lock-brand {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #695477;
+    margin: 0 0 10px;
+  }
+  #license-lock .license-lock-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #292929;
+    margin: 0 0 10px;
+  }
+  #license-lock .license-lock-text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(41, 41, 41, 0.72);
+    margin: 0 0 22px;
+  }
+  #license-lock .license-lock-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #license-lock .license-lock-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #695477;
+    text-align: left;
+  }
+  #license-lock .license-lock-input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    border: 2px solid #e8e0f0;
+    border-radius: 14px;
+    outline: none;
+    box-sizing: border-box;
+    color: #292929;
+    background: #faf9f6;
+  }
+  #license-lock .license-lock-input:focus {
+    border-color: #695477;
+    background: #ffffff;
+  }
+  #license-lock .license-lock-error {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #c81e1e;
+    margin: 0;
+  }
+  #license-lock .license-lock-error[hidden] {
+    display: none;
+  }
+  #license-lock .license-lock-btn {
+    margin-top: 6px;
+    padding: 16px 24px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    background: linear-gradient(145deg, #746084, #695477);
+    box-shadow: 7px 7px 14px rgba(105, 84, 119, 0.3);
+    transition: transform 0.15s ease, opacity 0.2s ease;
+  }
+  #license-lock .license-lock-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.97;
+  }
+  #license-lock .license-lock-btn:active {
+    transform: scale(0.98);
+  }
+  #license-lock .license-lock-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+  }
+  @media screen and (max-width: 480px) {
+    #license-lock .license-lock-card {
+      padding: 32px 22px 28px;
+      border-radius: 22px;
+    }
+    #license-lock .license-lock-title {
+      font-size: 22px;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    // SHA-256 hash of the license key (key itself is never stored in the theme).
+    var KEY_HASH = '46331e9a880c663527b819d364bfa878faeee6fe03822ef2ec191edf895aa2c6';
+    var FLAG = 'desire17_license_unlocked_v1';
+
+    // Already unlocked on this browser? Remove the lock immediately.
+    try {
+      if (window.localStorage && localStorage.getItem(FLAG) === '1') {
+        var done = document.getElementById('license-lock');
+        if (done) done.parentNode.removeChild(done);
+        return;
+      }
+    } catch (e) {}
+
+    document.body.classList.add('license-locked');
+
+    function sha256hex(str) {
+      if (!(window.crypto && crypto.subtle && window.TextEncoder)) {
+        return Promise.reject(new Error('secure-context'));
+      }
+      var data = new TextEncoder().encode(str);
+      return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+        var bytes = new Uint8Array(buf);
+        var hex = '';
+        for (var i = 0; i < bytes.length; i++) {
+          hex += ('0' + bytes[i].toString(16)).slice(-2);
+        }
+        return hex;
+      });
+    }
+
+    function showError(msg) {
+      var err = document.getElementById('license-lock-error');
+      if (err) {
+        err.textContent = msg;
+        err.hidden = false;
+      }
+    }
+
+    function hideError() {
+      var err = document.getElementById('license-lock-error');
+      if (err) err.hidden = true;
+    }
+
+    function unlock() {
+      try {
+        if (window.localStorage) localStorage.setItem(FLAG, '1');
+      } catch (e) {}
+      var overlay = document.getElementById('license-lock');
+      if (overlay) overlay.parentNode.removeChild(overlay);
+      document.body.classList.remove('license-locked');
+    }
+
+    var form = document.getElementById('license-lock-form');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideError();
+      var input = document.getElementById('license-lock-key');
+      var btn = document.getElementById('license-lock-btn');
+      var value = input ? input.value.replace(/^\s+|\s+$/g, '') : '';
+      if (!value) {
+        showError('Please paste your license key.');
+        return;
+      }
+      if (btn) btn.disabled = true;
+      sha256hex(value).then(function (hex) {
+        if (btn) btn.disabled = false;
+        if (hex === KEY_HASH) {
+          unlock();
+        } else {
+          showError('Wrong key. Please try again.');
+        }
+      }).catch(function () {
+        if (btn) btn.disabled = false;
+        showError('Verification needs a secure (https) connection. Please reload the page.');
+      });
+    });
+  })();
+</script>
