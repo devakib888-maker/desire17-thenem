@@ -3,16 +3,7 @@
   Portable: inline <style>, no theme snippet dependencies except desire-icon.
 {% endcomment %}
 
-<div
-  class="section section--full-width desire-promises desire-promises--width-{{ section.settings.section_width | default: 'full-width' }}"
-  style="background-color: {{ section.settings.background_color | default: '#C49AAD' }}; margin-block-start: {{ section.settings.spacing_top | default: 0 }}px; margin-block-end: {{ section.settings.spacing_bottom | default: 0 }}px;"
->
-  <div class="desire-promises__inner">
-    <div class="desire-promises__head">
-      {% if section.settings.heading != blank %}
-        <h2 class="desire-promises__heading">{{ section.settings.heading }}</h2>
-        <span class="desire-promises__underline" aria-hidden="true"></span>
-      {% endif %}
+<
       {% if section.settings.subtext != blank %}
         <div class="desire-promises__sub">{{ section.settings.subtext }}</div>
       {% endif %}

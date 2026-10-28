@@ -1,21 +1,14 @@
 {% comment %}
   Desire17 details: hidden compartment story. Image left, copy right.
 {% endcomment %}
-{% liquid
-  assign details_alt = section.settings.image.alt | default: 'Teddy achterkant met rits'
-  assign icon_1 = section.settings.icon_1 | default: 'lock'
-  assign icon_2 = section.settings.icon_2 | default: 'star'
-  assign icon_3 = section.settings.icon_3 | default: 'home'
-%}
-
+{
 <div
   class="section-background"
   style="background: {{ section.settings.background_color | default: '#EFEAF3' }};"
 ></div>
 <div
   class="section section--full-width desire-details desire-details--{{ section.settings.content_size | default: 'medium' }} desire-details--width-{{ section.settings.section_width | default: 'full-width' }}"
-  style="--desire-details-bg: {{ section.settings.background_color | default: '#EFEAF3' }}; margin-block-start: {{ section.settings.spacing_top | default: 0 }}px; margin-block-end: {{ section.settings.spacing_bottom | default: 0 }}px;"
->
+  style="--desire-details-bg: {{ section.settings.background_color | d
   <div class="desire-details__inner">
     <div class="desire-details__media">
       {% if section.settings.image != blank %}

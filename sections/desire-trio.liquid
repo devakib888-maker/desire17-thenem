@@ -2,18 +2,9 @@
   Desire17 trio + kleurconcept strip.
 {% endcomment %}
 {% liquid
-  assign alt_1 = section.settings.image_1.alt | default: section.settings.title_1
-  assign alt_2 = section.settings.image_2.alt | default: section.settings.title_2
-  assign alt_3 = section.settings.image_3.alt | default: section.settings.title_3
-%}
-
+ 
 <div class="section section--full-width desire-trio desire-trio--width-{{ section.settings.section_width | default: 'full-width' }}" style="background: {{ section.settings.background_color | default: '#FFFFFF' }}; margin-block-start: {{ section.settings.spacing_top | default: 0 }}px; margin-block-end: {{ section.settings.spacing_bottom | default: 0 }}px;">
-  <div class="desire-trio__inner">
-    <ul class="desire-trio__grid" role="list">
-      <li class="desire-trio__card">
-        {% if section.settings.image_1 != blank %}
-          {{ section.settings.image_1 | image_url: width: 900 | image_tag: widths: '400, 600, 900', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', alt: alt_1, class: 'desire-trio__img' }}
-        {% else %}
+  
           {{ 'hero-apparel-3' | placeholder_svg_tag: 'desire-trio__img' }}
         {% endif %}
         <div class="desire-trio__body">
